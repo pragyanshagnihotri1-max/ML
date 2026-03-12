@@ -1,0 +1,41 @@
+# Import libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+
+# Create dataset
+data = {
+    'Area': [1000,1500,1800,2400,3000,3500,4000],
+    'Bedrooms': [2,3,3,4,4,5,5],
+    'Age': [10,8,6,4,2,3,1],
+    'Price': [200000,300000,350000,450000,550000,600000,650000]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Features (X) and Target (y)
+X = df[['Area','Bedrooms','Age']]
+y = df['Price']
+
+# Split dataset into training and testing
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create Linear Regression model
+model = LinearRegression()
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Predict test set
+y_pred = model.predict(X_test)
+
+# Model accuracy
+accuracy = r2_score(y_test, y_pred)
+print("Model R^2 Score:", accuracy)
+
+# Predict price for a new house
+new_house = [[2500, 4, 5]]  # Area, Bedrooms, Age
+predicted_price = model.predict(new_house)
+print("Predicted House Price:", predicted_price[0])
